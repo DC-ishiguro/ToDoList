@@ -13,8 +13,18 @@ const db = mysql.createConnection({
     database        : 'todolist'
 });
 
+db.connect(err => {
+    if (err) {
+        console.error('Database connection failed:', err.stack);
+        return;
+    }
+    console.log('DB接続');
+});
+
 //cors対策
 app.use(cors());
+
+//json
 app.use(bodyParser.json());
 
 // //API作成
@@ -29,15 +39,6 @@ app.use(bodyParser.json());
 // app.listen(port, () => {
 //     console.log('サーバーが起動しました。');
 // });
-
-
-db.connect(err => {
-    if (err) {
-        console.error('Database connection failed:', err.stack);
-        return;
-    }
-    console.log('DB接続');
-});
 
 // タスクの取得
 app.get('/tasks', (req, res) => {
