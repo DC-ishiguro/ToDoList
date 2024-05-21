@@ -1,0 +1,71 @@
+.App {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 20px;
+}
+
+.chart {
+  position: relative;
+  width: 40%;
+}
+
+.chart-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.todo-list {
+  width: 50%;
+}
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.input-container input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.todo-list ul {
+  list-style-type: none;
+  padding: 0;
+  max-height: 400px; /* スクロールのための高さ制限 */
+  overflow-y: auto; /* 縦方向にスクロール */
+}
+
+.todo-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.todo-list li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.todo-list li button {
+  background: #ff6384;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.todo-list li button:hover {
+  background: #ff4b5c;
+}
