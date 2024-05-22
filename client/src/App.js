@@ -29,6 +29,8 @@ import './App.css';
 const App = () => {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
+    const [editTaskId, setEditTaskId] = useState(null);
+    const [editTaskText, setEditTaskText] = useState('');
 
     useEffect(() => {
         fetchTasks();
@@ -39,7 +41,7 @@ const App = () => {
             const response = await axios.get('http://localhost:3001/tasks');
             setTasks(response.data);
         } catch (error) {
-            console.error('エラー:', error);
+            console.error('エラーが発生しました:', error);
         }
     };
 
@@ -50,7 +52,7 @@ const App = () => {
                 setTasks([...tasks, response.data]);
                 setNewTask('');
             } catch (error) {
-                console.error('追加の際にエラー発生:', error);
+                console.error('追加の際にエラー:', error);
             }
         }
     };
@@ -61,7 +63,7 @@ const App = () => {
             await axios.put(`http://localhost:3001/tasks/${id}`, { ...task, flg: !task.flg });
             setTasks(tasks.map(t => t.id === id ? { ...t, flg: !t.flg } : t));
         } catch (error) {
-            console.error('更新の際にエラー発生:', error);
+            console.error('更新の際にエラー:', error);
         }
     };
 
@@ -70,7 +72,25 @@ const App = () => {
             await axios.delete(`http://localhost:3001/tasks/${id}`);
             setTasks(tasks.filter(t => t.id !== id));
         } catch (error) {
-            console.error('削除の際にエラー発生:', error);
+            console.error('削除の際にエラー:', error);
+        }
+    };
+
+    const startEditing = (id, text) => {
+        setEditTaskId(id);
+        setEditTaskText(text);
+    };
+
+    const updateTask = async (id) => {
+        if (editTaskText.trim()) {
+            try {
+                await axios.put(`http://localhost:3001/tasks/${id}`, { text: editTaskText });
+                setTasks(tasks.map(t => t.id === id ? { ...t, text: editTaskText } : t));
+                setEditTaskId(null);
+                setEditTaskText('');
+            } catch (error) {
+                console.error('更新の際にエラー:', error);
+            }
         }
     };
 
@@ -112,7 +132,7 @@ const App = () => {
                             type="text"
                             value={newTask}
                             onChange={(e) => setNewTask(e.target.value)}
-                            placeholder="タスクを追加してください"
+                            placeholder="やること追加"
                         />
                         <button onClick={addTask}>追加</button>
                     </div>
@@ -124,8 +144,23 @@ const App = () => {
                                     checked={task.flg}
                                     onChange={() => toggleTask(task.id)}
                                 />
-                                <span>{task.text}</span>
-                                <button onClick={() => deleteTask(task.id)}>削除</button>
+                                {editTaskId === task.id ? (
+                                    <input
+                                        type="text"
+                                        value={editTaskText}
+                                        onChange={(e) => setEditTaskText(e.target.value)}
+                                    />
+                                ) : (
+                                    <span>{task.text}</span>
+                                )}
+                                <div>
+                                    {editTaskId === task.id ? (
+                                        <button class="edit" onClick={() => updateTask(task.id)}>更新</button>
+                                    ) : (
+                                        <button class="edit" onClick={() => startEditing(task.id, task.text)}>編集</button>
+                                    )}
+                                    <button onClick={() => deleteTask(task.id)}>削除</button>
+                                </div>
                             </li>
                         ))}
                     </ul>

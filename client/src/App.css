@@ -42,8 +42,8 @@
 .todo-list ul {
   list-style-type: none;
   padding: 0;
-  max-height: 400px; /* スクロールのための高さ制限 */
-  overflow-y: auto; /* 縦方向にスクロール */
+  max-height: 400px; 
+  overflow-y: auto; 
 }
 
 .todo-list li {
@@ -59,13 +59,31 @@
 }
 
 .todo-list li button {
-  background: #ff6384;
+  background: red;
   border: none;
   color: white;
   padding: 5px 10px;
   cursor: pointer;
+  margin-left: 5px;
 }
 
-.todo-list li button:hover {
-  background: #ff4b5c;
+.todo-list li button.edit {
+  background: #36a2eb;
+}
+
+.todo-list li button.edit:hover {
+  background: #2a92d2;
+}
+
+.todo-list li button.delete {
+  background: red; 
+}
+
+.todo-list li button.delete:hover {
+  background: red;
+}
+
+.todo-list li div {
+  display: flex;
+  align-items: center;
 }
